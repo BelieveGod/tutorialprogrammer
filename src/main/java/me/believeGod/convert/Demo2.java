@@ -1,5 +1,9 @@
 package me.believeGod.convert;
 
+import me.believeGod.util.HexUtils;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -28,4 +32,27 @@ public class Demo2 {
 
     }
 
+
+    @Test
+    public void test(){
+        int digit = Character.digit('B', 16);
+        System.out.println("digit = " + digit);
+    }
+
+
+    @Test
+    public void test2(){
+        byte[] data = new byte[]{(byte)0xc4, (byte)0xe3, (byte)0xba, (byte)0xc3};
+        String[] hexStrings = HexUtils.bytesToHexStrings(data,0,2);
+        String s = HexUtils.hexStrings2hexString(hexStrings);
+        System.out.println("s = " + s);
+
+        byte[] bytes = HexUtils.hexStrings2bytes(hexStrings);
+
+        Assert.assertArrayEquals("字节相等",data,bytes);
+
+        for (int i = 0; i < bytes.length; i++) {
+            System.out.println("bytes:"+bytes[i]+"   " +" data:" + data[i]);
+        }
+    }
 }
