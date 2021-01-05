@@ -8,40 +8,36 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @ClassName Example14
- * @Description 示范使用AtomicInteger
- * @Author believeGod
- * @Date 2020/9/29 13:13
- * @Version 1.0
+ * CountDownLatch 的 示范使用
+ * @author LTJ
+ * @version 1.0
+ * @date 2021/1/5 9:45
  */
-public class Example14 {
+public class Example18 {
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = Executors.newFixedThreadPool(5);
-        AtomicInteger atomicInteger=new AtomicInteger(5);
+        CountDownLatch latch=new CountDownLatch(5);
         List<Runnable> runnableList = new ArrayList<>();
         for(int i=0;i<5;i++){
-            runnableList.add(new MyThread14(atomicInteger));
+            runnableList.add(new MyThread18(latch));
         }
         runnableList.forEach(runnable -> executorService.submit(runnable));
 
-        while (atomicInteger.get()>0){
-            Thread.sleep(100);
-        }
+        latch.await();
         System.out.println("子线程执行完毕，主线程中止线程池");
         executorService.shutdown();
     }
 
 }
 
-class MyThread14 implements Runnable{
-    private AtomicInteger atomicInteger ;
+class MyThread18 implements Runnable{
+    private CountDownLatch latch ;
     private ThreadLocalRandom random=ThreadLocalRandom.current();
 
-    public MyThread14(AtomicInteger atomicInteger) {
-        this.atomicInteger = atomicInteger;
+    public MyThread18(CountDownLatch latch) {
+        this.latch = latch;
     }
 
     @Override
@@ -52,7 +48,9 @@ class MyThread14 implements Runnable{
             String format = localDateTime.format(formatter);
             System.out.println(Thread.currentThread().getName() + "---" + format);
             Thread.sleep(random.nextInt(1000,3000));
-            System.out.println("atomicInteger.addAndGet(-1) = " + atomicInteger.addAndGet(-1));
+            System.out.println("latch.getCount() = " + latch.getCount());
+            latch.countDown();
+            System.out.println("latch 减后" + latch.getCount());
         } catch (InterruptedException e) {
             System.out.println("阻塞被中断");
             Thread.currentThread().interrupt();

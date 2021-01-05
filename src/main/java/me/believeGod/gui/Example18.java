@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * @ClassName Example18
+ * @ClassName Example14
  * @Description GUI程序实力
  * @Author Tim
  * @Date 2020/6/8 10:41
