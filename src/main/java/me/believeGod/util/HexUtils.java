@@ -69,4 +69,32 @@ public class HexUtils {
         return bytes;
     }
 
+    /**
+     * 小端模式
+     * @param value
+     * @return
+     */
+    public static byte[] int2Bytes(int value){
+        final int Len=4;
+        byte[] bytes = new byte[Len];
+        for(int i=0;i<Len;i++){
+            bytes[i]=(byte)(value >> 8 * i);
+        }
+        return bytes;
+    }
+
+    /**
+     * 小端模式
+     * @param value
+     * @return
+     */
+    public static byte[] short2Bytes(short value){
+        final int Len=2;
+        byte[] bytes = new byte[Len];
+        for(int i=0;i<Len;i++){
+            bytes[i]=(byte)(value >> 8 * i);
+        }
+        return bytes;
+    }
+
 }
